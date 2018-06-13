@@ -174,7 +174,7 @@ class CallTree():
 
                 while node is not None:
                     if node.optional:
-                        clr = "grey"
+                        clr = "blue"
                     else:
                         clr = "black"
                     s.node(node.label, color=clr)
