@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import os
 
 from cg_generator import CGGenerator
 from naive_ldfi import NaiveLDFI
@@ -139,16 +140,19 @@ def do_heuristic(g):
                 return Resut(None, iterations)
             ft.update_heuristic(ret)
 
-op_file = sys.argv[1]
+output_directory = 'out'
+op_file = os.path.join(output_directory, sys.argv[1])
+
 print "Nodes, edges, ldfi, random, bruteforce"
 
 res_categories = {}
-for j in range(50):
+for j in range(1):
     #i = j + 64
-    i =  j
+    i =  1
     cg = CGGenerator(MAXWIDTH, i)
     g = cg.new_graph(MAXDEPTH, MAXALTS)
-    g.to_dot().render(str(i))
+    graph_output_file = os.path.join(output_directory, str(i))
+    g.to_dot().render(graph_output_file)
     print "GRAPH " + str(i) + ":" + str(len(g.nodeset())) + " nodes, " + str(len(g.edgeset())) + " edges"
     print "depth " + str(g.depth())
     print "bottom " + str(g.bottom())
