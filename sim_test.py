@@ -43,7 +43,6 @@ class MyTest(unittest.TestCase):
        
         print( "INO "  + str(baset.inject("B")) )
         assert(not self.basic().inject("B"))
-
         assert(self.basic().inject("C"))
         assert(self.basic().inject("A"))
         assert(not self.basic().inject("D"))
@@ -165,7 +164,7 @@ class MyTest(unittest.TestCase):
             if g.label in faultset:
                 print( "WOOOO" )
                 soln = next(sugg)
-                print( "newSOLN " + str(soln) )
+                print("newSOLN " + str(soln))
                 continue
                 
 
