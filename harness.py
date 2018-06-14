@@ -1,11 +1,9 @@
-#!/usr/bin/python
 import os
 
 from cg_generator import CGGenerator
 from naive_ldfi import NaiveLDFI
 from injectors import FaultInjector, RandomFaultInjector, HeuristicFaultInjector
 
-import random
 import json
 import sys
 
@@ -38,14 +36,16 @@ def do_ldfi(g):
         soln = next(sugg)
     except StopIteration:
         return Result(None, iterations)
-
+    
     iterations = 0
     while soln:
-        #print iterations
         iterations += 1
-        #print "SOLN " + str(soln)
-        faultset = map(lambda x: str(x), soln)
+        print( iterations )
+        faultset = list(map(lambda x: str(x), soln))
+        #print(faultset)
 
+        if len(faultset)==0:
+            return Result(None, iterations)
         if g.label in faultset:
             if iterations > maxiterations:
                 return Result(None, iterations)
@@ -55,7 +55,7 @@ def do_ldfi(g):
                 soln = next(sugg)
             except StopIteration:
                 return(None, iterations)
-            print "newSOLN " + str(soln)
+            print("newSOLN " + str(soln))
             continue
 
         ret = g.inject_new(faultset)
@@ -142,33 +142,34 @@ def do_heuristic(g):
 
 output_directory = 'out'
 op_file = os.path.join(output_directory, sys.argv[1])
-
-print "Nodes, edges, ldfi, random, bruteforce"
+print("Nodes, edges, ldfi, random, bruteforce")
 
 res_categories = {}
 for j in range(1):
     #i = j + 64
-    i =  1
+    i =  35
     cg = CGGenerator(MAXWIDTH, i)
     g = cg.new_graph(MAXDEPTH, MAXALTS)
     graph_output_file = os.path.join(output_directory, str(i))
-    g.to_dot().render(graph_output_file)
-    print "GRAPH " + str(i) + ":" + str(len(g.nodeset())) + " nodes, " + str(len(g.edgeset())) + " edges"
-    print "depth " + str(g.depth())
-    print "bottom " + str(g.bottom())
+    g.to_dot(alternates=True).render(graph_output_file)
+    print("GRAPH " + str(i) + ":" + str(len(g.nodeset())) + " nodes, " + str(len(g.edgeset())) + " edges")
+    print("depth " + str(g.depth()))
+    print("bottom " + str(g.bottom()))
     if g.bottom() == 0:
         continue
 
-    print "Finding LDFI solution"
+    print("Finding LDFI solution")
     l = do_ldfi(g)
-    print "Finding random solution"
+    print(l.solution,l.iterations)
+    exit(0)
+    print("Finding random solution")
     r = do_random(g)
-    print "Finding bruteforce solution"
+    print("Finding bruteforce solution")
     b = do_bruteforce(g)
-    print "Finding heuristic solution"
+    print("Finding heuristic solution")
     h = do_heuristic(g)
 
-    print "|".join(map(lambda x: str(x), [j, len(g.nodeset()), len(g.edgeset(alternates=True)), l.solution, l.iterations, r.solution, r.iterations, b.solution, b.iterations, h.solution, h.iterations]))
+    print("|".join(map(lambda x: str(x), [j, len(g.nodeset()), len(g.edgeset(alternates=True)), l.solution, l.iterations, r.solution, r.iterations, b.solution, b.iterations, h.solution, h.iterations])))
 
     soln_len = g.min_failure_scenario_size()
     if soln_len not in res_categories:

@@ -15,7 +15,7 @@ class NaiveLDFI():
             labels = filter(lambda x: x != trace[0], map(lambda x: x.label, trace[1]))
             #print "LABELS is " + str(sorted(labels))
             if labels is None:
-                print "ONO"
+                print("ONO")
             outerset.add(frozenset(labels))
 
 

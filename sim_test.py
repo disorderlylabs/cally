@@ -41,7 +41,7 @@ class MyTest(unittest.TestCase):
     def Ntest_faults(self):
         baset = self.basic()
        
-        print "INO "  + str(baset.inject("B")) 
+        print( "INO "  + str(baset.inject("B")))
 
         assert(not self.basic().inject("B"))
         assert(self.basic().inject("C"))
@@ -165,7 +165,7 @@ class MyTest(unittest.TestCase):
             if g.label in faultset:
                 print "WOOOO"
                 soln = next(sugg)
-                print "newSOLN " + str(soln)
+                print("newSOLN " + str(soln))
                 continue
                 
 
@@ -174,7 +174,7 @@ class MyTest(unittest.TestCase):
             g = cg.new_graph(4, 3)
             ret = g.inject(faultset)
             if ret:
-                print "FAILURE!"
+                print( "FAILURE!" )
                 return faultset
 
             ldfi.add_graph(g)
