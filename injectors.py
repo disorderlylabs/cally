@@ -39,7 +39,7 @@ class FaultInjector:
         return chain.from_iterable(combinations(n, r) for r in range(1, len(n)+1))
 
     def all_faults_cnt(self):
-        print len(self.graph.active_nodeset())
+        print( len(self.graph.active_nodeset()) )
         return (2 ** len(self.graph.active_nodeset())-1)
 
 class HeuristicFaultInjector:

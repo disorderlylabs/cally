@@ -60,7 +60,7 @@ class CallTree():
 
     def add_alternative(self, alternative):
         if self.parent is None:
-            print "no root alternatives, please"
+            print( "no root alternatives, please")
         else:
             self.alternative = alternative
 
@@ -127,10 +127,10 @@ class CallTree():
             return self.parent.depth() + 1
 
     def print_graph(self):
-        print self.label
-        print "Children:"
+        print( self.label )
+        print( "Children:" )
         for child in self.children:
-            print child.label
+            print( child.label )
         for child in self.children:
             child.print_graph()
 

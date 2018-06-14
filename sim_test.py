@@ -42,6 +42,7 @@ class MyTest(unittest.TestCase):
         baset = self.basic()
        
         print( "INO "  + str(baset.inject("B")) )
+
         assert(not self.basic().inject("B"))
         assert(self.basic().inject("C"))
         assert(self.basic().inject("A"))
@@ -173,7 +174,7 @@ class MyTest(unittest.TestCase):
             g = cg.new_graph(4, 3)
             ret = g.inject(faultset)
             if ret:
-                print "FAILURE!"
+                print( "FAILURE!" )
                 return faultset
 
             ldfi.add_graph(g)
