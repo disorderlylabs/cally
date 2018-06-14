@@ -34,7 +34,7 @@ class FaultInjector:
         self.graph = graph
 
     def all_faults(self):
-        n = map(lambda x: x.label, self.graph.active_nodeset())
+        n = list(map(lambda x: x.label, self.graph.active_nodeset()))
         n.sort(key=natural_sort_key)
         return chain.from_iterable(combinations(n, r) for r in range(1, len(n)+1))
 
@@ -50,7 +50,7 @@ class HeuristicFaultInjector:
 
     def next_fault(self):
         if len(self.faults_injected) == 0:
-            self.nodes = map(lambda x: x.label, self.graph.children)
+            self.nodes = list(map(lambda x: x.label, self.graph.children))
         self.nodes.sort(key=natural_sort_key)
         return chain.from_iterable(combinations(self.nodes, r) for r in range(1, len(self.nodes)+1))
 

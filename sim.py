@@ -5,7 +5,7 @@
 from graphviz import Digraph
 from itertools import *
 
-import random, copy
+import copy
 
 
 

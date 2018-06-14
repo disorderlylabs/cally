@@ -1,4 +1,4 @@
-import pbool
+from . import pbool
 from pulp import *
 
 
@@ -8,7 +8,7 @@ class SATVars:
         self.var2name = {}
 
     def lookupName(self, name):
-        if not self.name2var.has_key(name):
+        if name not in self.name2var:
             lpv = LpVariable(name, 0, 1, "Integer")
             #print "LPV " + str(lpv)
             self.name2var[name] = lpv
@@ -31,16 +31,14 @@ class Solver:
         self.vars = SATVars()
         self.satformula = []
         for clause in cnf.conjuncts():
-            satclause = map(self.vars.lookupName, clause)
-            #print "SATCLAUSE " + str(satclause)
+            satclause = list(map(self.vars.lookupName, clause))
+            #print( "SATCLAUSE " + str(list(satclause)) )
             self.satformula.append(list(satclause))
-            self.problem += sum(satclause) >= 1
+            constraint = sum(satclause) >= 1
+            self.problem += constraint
 
-        
-        
-        self.problem += sum(self.vars.allVars())
-
-        
+        self.problem += sum( list(self.vars.allVars()) )
+        #print(self.problem)
 
     def solutions(self):
         def unVar(var):

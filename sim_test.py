@@ -41,9 +41,9 @@ class MyTest(unittest.TestCase):
     def Ntest_faults(self):
         baset = self.basic()
        
-        print "INO "  + str(baset.inject("B")) 
-
+        print( "INO "  + str(baset.inject("B")) )
         assert(not self.basic().inject("B"))
+
         assert(self.basic().inject("C"))
         assert(self.basic().inject("A"))
         assert(not self.basic().inject("D"))
@@ -71,12 +71,12 @@ class MyTest(unittest.TestCase):
 
         labels = set(map(lambda x: x.label, baset.nodeset()))
   
-        print "labels is " + str(labels) 
+        print( "labels is " + str(labels) )
         #self.assertEqual(labels, set(["A", "B", "C", "E", "D"])) 
 
-        print "OK"
+        print( "OK" )
         baset.to_dot().render("baz")
-        print "DONE"    
+        print( "DONE" )
 
     def labels(self, t):
         return set(map(lambda x: x.label, t.nodeset()))
@@ -104,10 +104,10 @@ class MyTest(unittest.TestCase):
             bt = self.bigger()
             ret = bt.inject(fault)
             if ret:
-                print "failure " + str(fault)
+                print( "failure " + str(fault) )
                 failures += 1
             
-        print "faults " + str(ft.all_faults_cnt()) + ", failures " + str(failures)
+        print( "faults " + str(ft.all_faults_cnt()) + ", failures " + str(failures) )
 
     def Ntest_generate(self):
         cg = CGGenerator(5, MAGIC)
@@ -115,9 +115,9 @@ class MyTest(unittest.TestCase):
         g.to_dot().render("NEWG")
 
         ft = FaultInjector(g)
-        print "all: " + str(ft.all_faults_cnt())
+        print( "all: " + str(ft.all_faults_cnt()) )
         for fault in ft.all_faults():
-            print "FAULT " + str(fault)
+            print( "FAULT " + str(fault) )
 
             if g.label in fault:
                 continue
@@ -126,7 +126,7 @@ class MyTest(unittest.TestCase):
             ret = g.inject(fault)
             #g.to_dot().render(str(fault))    
             if ret:
-                print "failure " + str(fault)
+                print( "failure " + str(fault) )
                 #failures += 1
                 return fault
 
@@ -136,19 +136,19 @@ class MyTest(unittest.TestCase):
         g.to_dot().render("before")
         ldfi = NaiveLDFI()
         ldfi.add_graph(g)
-        print "FURF " + str(ldfi.current_formula())
+        print( "FURF " + str(ldfi.current_formula()) )
 
         # [N1001, N390, N391]
         # [N232, N233, N418, N419]
         ret = g.inject(["N232", "N233", "N418", "N419"])
         g.to_dot().render("after")
         ldfi.add_graph(g)
-        print "CURF " + str(ldfi.current_formula())
+        print( "CURF " + str(ldfi.current_formula()) )
 
-        print  "EDGES " + str(g.edgeset())
+        print( "EDGES " + str(g.edgeset()) )
 
-        print "G is  "  +str(g)
-        print "ret is " + str(ret)
+        print( "G is  "  +str(g) )
+        print( "ret is " + str(ret) )
         
 
     def Ntest_ldfi(self):
@@ -163,9 +163,9 @@ class MyTest(unittest.TestCase):
             #print "SOLN " + str(soln)
             faultset = map(lambda x: str(x), soln)
             if g.label in faultset:
-                print "WOOOO"
+                print( "WOOOO" )
                 soln = next(sugg)
-                print "newSOLN " + str(soln)
+                print( "newSOLN " + str(soln) )
                 continue
                 
 

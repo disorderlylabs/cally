@@ -37,17 +37,25 @@ class NaiveLDFI():
 
     def suggestions(self):
         formula = self.current_formula()
-        #print "FORMO " + str(formula)
+        #print("Create a formula %s" % str(formula))
         cnf = CNFFormula(formula)
+        #print("CNF %s" %str(cnf) )
 
-        #print "FORMO " + str(formula)
-        #print "clauses " + str(len(cnf.conjuncts()))
+        #print( "clauses " + str(len(cnf.conjuncts())) )
 
         s = ldfi_py.pilp.Solver(cnf)
         #s = ldfi_py.psat.Solver(cnf)
+        
         crs = s.solutions()
-        #for s in crs:
-        #    print "ESS " + str(s)
+        '''
+        while True:
+            try:
+                sol = next(crs)
+                print( "ESS " + str(list(sol)) )
+            except StopIteration:
+                break
+        '''
+
         return crs
 
 #class NaiveLDFIWrapper():

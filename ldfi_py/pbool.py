@@ -1,5 +1,5 @@
 import abc
-import random
+import numpy as np
 from graphviz import Digraph
 
 class BooleanFormula:
@@ -24,7 +24,6 @@ class BooleanFormula:
                     return 1
             else:
                 return 1
-
 
     @abc.abstractmethod
     def me(self):
@@ -96,7 +95,7 @@ class BooleanFormula:
 
     @abc.abstractmethod
     def conjuncts(self):
-        print "ONO"
+        print( "ONO" )
         raise Exception("you fucked up.")
         return set()
             
@@ -115,7 +114,6 @@ class AndFormula(BooleanFormula):
 
     def disjuncts(self):
         # P.A.A. ????
-        print "FOOGAR"
         return set()
 
     def conjuncts(self):
@@ -148,11 +146,12 @@ class OrFormula(BooleanFormula):
             rgh = self.right.convertToCNF()
             return AndFormula(OrFormula(self.left.left.convertToCNF(), rgh), OrFormula(self.left.right.convertToCNF(), rgh))
         else:
-            return OrFormula(self.left.convertToCNF(), self.right.convertToCNF())
+            cnf_form =  OrFormula(self.left.convertToCNF(), self.right.convertToCNF())
+            return cnf_form 
 
     def isCNF(self):
         if (self.left.sign == "AND") or (self.right.sign == "AND"):
-            print "ONO: witness to non-cnf: " + self.left.sign + " and " + self.right.sign
+            print( "ONO: witness to non-cnf: " + self.left.sign + " and " + self.right.sign )
             return False
         else:
             return self.left.isCNF() and self.right.isCNF()
@@ -185,18 +184,18 @@ class Literal(BooleanFormula):
 
 class FormulaGenerator:
     def __init__(self, cardinality, seed):
-        random.seed(seed)
+        np.random.seed(seed)
         self.cardinality = cardinality
 
     def formula(self, depth):
         if depth == 1:
             # pick a random string
-            stri = "I" + str(random.randint(0, self.cardinality))
+            stri = "I" + str(np.random.randint(0, self.cardinality+1))
             return Literal(stri)
         else:
             long = self.formula(depth-1)
-            short = self.formula(random.randint(1, depth-1))
-            if random.randint(0,1) == 1:
+            short = self.formula(np.random.randint(1, depth))
+            if np.random.randint(0,2) == 1:
                 left = long
                 right = short
             else:
@@ -204,7 +203,7 @@ class FormulaGenerator:
                 left = short
     
             # either an AND or an OR
-            if random.randint(0,1) == 1:
+            if np.random.randint(0,2) == 1:
                 # AND
                 return AndFormula(left, right)
             else:
@@ -216,11 +215,11 @@ class CNFFormula:
         self.formula = None
         form = formula
         i = 0
-        while form != self.formula:
-            #print str(form) + " IS NOT = " + str(self.formula)
+        while str(form) != str(self.formula):
+            #print( str(form) + " IS NOT = " + str(self.formula) )
             self.formula = form
             form = form.convertToCNF()
-            #print "iteration %d" % i
+            #print( "iteration %d" % i )
             i += 1
 
         self.formula = form.convertToCNF()

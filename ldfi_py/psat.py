@@ -1,4 +1,4 @@
-import pbool
+from . import pbool
 import pycosat
 
 

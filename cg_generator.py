@@ -1,11 +1,11 @@
-import random
 from sim import *
+import numpy as np
 
 class CGGenerator():
     # trying to channel both Ash*
 
     def __init__(self, maxwidth, seed = None):
-        random.seed(seed)
+        np.random.seed(seed)
         self.maxwidth = maxwidth
         self.cnt = 0
 
@@ -16,11 +16,11 @@ class CGGenerator():
 
 
     def callgraph(self, parent, maxdepth, maxalternatives, mandatory = False):
-        nchildren = random.randint(1, self.maxwidth)
+        nchildren = np.random.randint(1, self.maxwidth+1)
         if mandatory:
             optional = False
         else:
-            optional = (random.randint(0,1) == 0)
+            optional = (np.random.randint(0,2) == 0)
 
         name = self.skolem()
         #print "CREATE NODE " + str(name) + " optional " + str(optional)
@@ -29,7 +29,7 @@ class CGGenerator():
         a = CallTree(name, parent, optional, alt)
         #print "I just created " + str(a) + " parent " + str(a.parent)
 
-        if parent is not None and not optional and random.randint(0, maxalternatives) > 0:
+        if parent is not None and not optional and np.random.randint(0, maxalternatives+1) > 0:
             #print "I have an alter ego."
             # I shall have an alter ego
             alt = self.callgraph( a, maxdepth, maxalternatives-1, True)
@@ -38,7 +38,7 @@ class CGGenerator():
 
         # now decide if we have children, and if so how many.
         #print "flip a coin from 0 - " + str(maxdepth) + " to decide if " + str(a) + "spawns"
-        if random.randint(0, maxdepth) > 0:
+        if np.random.randint(0, maxdepth+1) > 0:
             #print "NODE " + name + " shall have " + str(nchildren)+ " children"
             # I shall reproduce
 

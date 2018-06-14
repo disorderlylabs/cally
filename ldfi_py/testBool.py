@@ -1,10 +1,10 @@
-import unittest2
+import unittest
 import pbool
 import psat
 import pilp
 from pytest import *
 
-class MyTest(unittest2.TestCase):
+class MyTest(unittest.TestCase):
     
     def basic(self):
         return pbool.OrFormula(pbool.AndFormula(pbool.Literal("a"), pbool.Literal("b")), pbool.AndFormula(pbool.Literal("c"), pbool.Literal("d")))
