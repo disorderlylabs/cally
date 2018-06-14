@@ -41,7 +41,7 @@ class MyTest(unittest.TestCase):
     def Ntest_faults(self):
         baset = self.basic()
        
-        print( "INO "  + str(baset.inject("B")))
+        print( "INO "  + str(baset.inject("B")) )
 
         assert(not self.basic().inject("B"))
         assert(self.basic().inject("C"))
@@ -163,7 +163,7 @@ class MyTest(unittest.TestCase):
             #print "SOLN " + str(soln)
             faultset = map(lambda x: str(x), soln)
             if g.label in faultset:
-                print "WOOOO"
+                print( "WOOOO" )
                 soln = next(sugg)
                 print("newSOLN " + str(soln))
                 continue
