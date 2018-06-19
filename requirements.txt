@@ -1,0 +1,6 @@
+python3.6
+graphviz
+pulp
+pycosat
+numpy
+requests
